@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* styles.css */
+@keyframes underline-move {
+    0% {
+      left: 0;
+      width: 0;
+    }
+    100% {
+      left: 0;
+      width: 100%;
+    }
+  }
+  
+  /* styles.css */
+.hover\:after-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px; /* Adjust the height as needed */
+    background-color: yellow; /* Change to your desired color */
+    transition: width 0.5s ease; /* Add transition effect */
+  }
+  
+  .hover\:after-underline:hover::after {
+    width: 100%; /* Set width to 100% on hover */
+  }
+  
+  .underline::after {
+    width: 100%; /* Set width to 100% for active tabs */
+  }
+
+  body {
+    font-family: var(--font-inter), sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-inter), sans-serif;
+  }
+  
+  

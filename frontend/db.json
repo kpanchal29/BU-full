@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "id": "4b52",
+      "userName": "kp",
+      "firstName": "Krishit",
+      "lastName": "Panchal",
+      "email": "kp@g.com",
+      "phone": "111",
+      "password": "11111"
+    },
+    {
+      "id": "9fee",
+      "userName": "kp",
+      "firstName": "krishit",
+      "lastName": "panchal",
+      "email": "kp@gmail.com",
+      "phone": "9427115111",
+      "password": "11"
+    },
+    {
+      "id": "8779",
+      "userName": "Kp",
+      "firstName": "krishit",
+      "lastName": "panchal",
+      "email": "k@g.com",
+      "phone": "11",
+      "password": "11"
+    }
+  ]
+}
