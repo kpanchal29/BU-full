@@ -111,10 +111,10 @@ app.post("/status", async (req, res) => {
         }
     };
 
-    // CHECK PAYMENT TATUS
+    // CHECK PAYMENT STATUS
     axios.request(options).then(async (response) => {
             if (response.data.success === true) {
-                const url = `http://localhost:5173/`
+                const url = `http://localhost:5173/success`
                 return res.redirect(url)
             } else {
                 const url = `http://localhost:5173/failure`

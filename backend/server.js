@@ -7,6 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+const port = 8081;
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -14,6 +15,14 @@ const db = mysql.createConnection({
   password: "", // Add your MySQL password here
   database: "signup",
 });
+
+// connection.connect((err) => {
+//   if (err) {
+//     console.error("Error connecting to MySQL database: " + err.stack);
+//     return;
+//   }
+//   console.log("Connected to MySQL database as id " + connection.threadId);
+// });
 
 // Route for user signup
 app.post("/signup", (req, res) => {
@@ -73,13 +82,9 @@ app.post("/contactus", (req, res) => {
   });
 });
 
-app.post("/newsletter", (req,res) => {
-  const sql = 
-      "INSERT INTO newsletter (`name`,`email`) VALUES (?,?)";
-  const fData = [
-    req.body.name,
-    req.body.email,
-  ];
+app.post("/newsletter", (req, res) => {
+  const sql = "INSERT INTO newsletter (`name`,`email`) VALUES (?,?)";
+  const fData = [req.body.name, req.body.email];
 
   db.query(sql, fData, (err, data) => {
     if (err) {
@@ -87,6 +92,73 @@ app.post("/newsletter", (req,res) => {
     }
     return res.json(data);
   });
+});
+
+// app.post("/checkout", (req,res)=> {
+//   const sql = "INSERT INTO checkout (`cName`,`address`,`apartment`,`city`,`state`,`pCode`) VALUES(?,?,?,?,?,?)";
+//   const checkoutFormData = [
+//     req.body.cName,
+//     req.body.address,
+//     req.body.apartment,
+//     req.body.city,
+//     req.body.state,
+//     req.body.pCode,
+
+//   ];
+
+//   db.query(sql, checkoutFormData, (err, data) => {
+//     if (err) {
+//       return res.json({ error: err });
+//     }
+//     return res.json(data);
+//   });
+
+// });
+
+app.post("/orders", (req, res) => {
+  const {
+    cName,
+    address,
+    apartment,
+    city,
+    state,
+    pCode,
+    items,
+    cartTotal,
+    quantityOfUniqueItems,
+  } = req.body;
+
+  // Insert data into the orders table
+  const sql = `INSERT INTO orders (customer_name, address, apartment, city, state, postal_code, item_name, item_price, cart_total, quantity_of_unique_items) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const checkoutFormData = [
+    cName,
+    address,
+    apartment,
+    city,
+    state,
+    pCode,
+    items.map((item) => item.name).join(", "),
+    items.map((item) => item.price).join(", "),
+    cartTotal,
+    quantityOfUniqueItems,
+  ];
+
+  db.query(sql, checkoutFormData, (err, data) => {
+    if (err) {
+      return res.json({ error: err });
+    }
+    return res.json(data);
+  });
+
+  //   db.query(sql, values, (err, result) => {
+  //     if (err) {
+  //       console.error("Error inserting data into MySQL table: " + err.stack);
+  //       res.status(500).send("Internal server error");
+  //       return;
+  //     }
+  //     console.log("Data inserted into MySQL table successfully");
+  //     res.status(200).send("Data inserted into MySQL table successfully");
+  //   });
 });
 
 app.listen(8081, () => {

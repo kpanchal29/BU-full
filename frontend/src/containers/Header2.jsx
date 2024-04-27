@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import LoginFormPopup from "../components/loginFormPopUp";
-import CartDrawer from "../components/CartDrawer";
 
-function Header() {
+function Header2() {
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -19,7 +17,11 @@ function Header() {
   };
 
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+    <div
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
       <List>
         {[
           { text: "Home", link: "/" },
@@ -34,11 +36,11 @@ function Header() {
           </ListItem>
         ))}
       </List>
-    </Box>
+    </div>
   );
 
   return (
-    <header className="bg-magic flex justify-between w-screen items-center h-20 sticky px-3 sm:px-24 top-0 z-40">
+    <header className="bg-magic flex justify-between w-screen md:justify-between items-center h-20 sticky px-3 sm:px-24 top-0 z-40">
       <div className="sm:hidden">
         <IconButton
           className="text-white"
@@ -51,10 +53,8 @@ function Header() {
           {DrawerList}
         </Drawer>
       </div>
-      <h1 className="text-2xl flex text-nowrap md:text-3xl text-white">
-        <Link to="/" className="hover:after-underline mx-auto sm:mx-0">
-          Bea You.
-        </Link>
+      <h1 className="text-2xl flex text-nowrap md:text-3xl md:mx-0 text-white">
+        Bea You.
       </h1>
       <div className="hidden sm:flex gap-5 text-white">
         <ul className="list-none flex gap-5 ">
@@ -81,16 +81,10 @@ function Header() {
         </ul>
         <div className="flex gap-6">
           <LoginFormPopup />
-          <CartDrawer />
         </div>
-      </div>
-      {/* Render LoginFormPopup component in mobile view */}
-      <div className="sm:hidden flex gap-4">
-        <LoginFormPopup />
-        <CartDrawer/>
       </div>
     </header>
   );
 }
 
-export default Header;
+export default Header2;

@@ -10,6 +10,10 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { CartProvider } from 'react-use-cart'
 import CheckoutForm from './Pages/CheckoutForm'
+import Payment from './Pages/Payment'
+
+
+
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -38,6 +42,7 @@ function App() {
       <Route path="/privacypolicy" element={<PrivacyPolicy/>}/>
       <Route path="/t&c" element={<TermsAndConditions/>}/>
       <Route path="/checkout" element={<CheckoutForm/>}/>
+      <Route path="/payment" element={<Payment/>}/>
      
 
       
