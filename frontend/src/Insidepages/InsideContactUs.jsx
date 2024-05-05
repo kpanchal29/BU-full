@@ -30,7 +30,7 @@ const InsideContactUs = () => {
   }
 
   return (
-    <div className="bg-magic2 px-3 py-28 sm:px-24 w-screen">
+    <div className="bg-magic2 px-3 py-28 sm:px-24 overflow-x-hidden">
       <div className="flex gap-20 items-center justify-center flex-wrap">
         <div className="flex gap-4">
           <LocationOnOutlinedIcon

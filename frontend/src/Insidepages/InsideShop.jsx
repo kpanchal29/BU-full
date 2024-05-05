@@ -4,7 +4,7 @@ import products from "../components/products";
 
 const InsideShop = () => {
   return (
-    <div className="bg-magic2 grid grid-cols-1 lg:grid-cols-4 px-3 py-28 sm:px-24 items-center gap-7 w-screen">
+    <div className="bg-magic2 grid grid-cols-1 lg:grid-cols-4 px-3 py-28 sm:px-24 items-center gap-7 overflow-x-hidden">
         {products.productData.map((item, index) => {
           return (
             <Card

@@ -28,7 +28,7 @@ const Footer = () => {
   };
 
   return (
-    <div className="px-3 pt-28 pb-10 sm:px-24 flex flex-col gap-7 w-screen">
+    <div className="px-3 pt-28 pb-10 sm:px-24 flex flex-col gap-7 overflow-x-hidden">
       <div className="flex gap-6 font-semibold sm:text-3xl text-xl">
         <p>Subscribe to Newsletter</p>
       </div>

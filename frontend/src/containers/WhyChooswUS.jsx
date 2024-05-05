@@ -7,7 +7,7 @@ import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
 
 function WhyChooswUS() {
   return (
-    <div className="grid sm:grid-cols-2 gap-16 bg-magic2 px-3 py-28 sm:px-24 w-screen grid-cols-1">
+    <div className="grid sm:grid-cols-2 gap-16 bg-magic2 px-3 py-28 sm:px-24 grid-cols-1 overflow-x-hidden">
         <div className="col-span-1">
             <div className="flex flex-col gap-4">
                 <h1 className="text-3xl font-bold mb-2">We take skincare seriously</h1>

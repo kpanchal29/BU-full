@@ -38,7 +38,7 @@ function Header() {
   );
 
   return (
-    <header className="bg-magic flex justify-between w-screen items-center h-20 sticky px-3 sm:px-24 top-0 z-40">
+    <header className="bg-magic flex justify-between items-center h-20 sticky px-3 sm:px-24 top-0 z-40 overflow-x-hidden">
       <div className="sm:hidden">
         <IconButton
           className="text-white"

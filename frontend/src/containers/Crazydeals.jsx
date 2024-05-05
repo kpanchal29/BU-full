@@ -5,7 +5,7 @@ import image1 from "../assets/image1.jpeg"
 
 const Crazydeals = () => {
   return (
-    <div className=" bg-magic2 px-3 py-28 sm:px-24 flex gap-10 flex-col w-screen">
+    <div className=" bg-magic2 px-3 py-28 sm:px-24 flex gap-10 flex-col  overflow-x-hidden">
       <div>
         <h1 className="font-semibold text-5xl flex justify-center">
           Crazy Deals

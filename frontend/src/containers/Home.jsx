@@ -4,7 +4,7 @@ import  bannerImage2 from "../assets/bannerImage2.webp";
 
 function Home({ title, description, Sbutton, Ebutton, Scss, Ecss, bannerImg}) {
   return (
-    <div className="bg-magic  text-white grid md:grid-cols-main grid-rows-none gap-5 sm:items-center justify-center grid-cols-1 px-3 py-28 sm:px-24 w-screen">
+    <div className="bg-magic  text-white grid md:grid-cols-main grid-rows-none gap-5 sm:items-center justify-center grid-cols-1 px-3 py-28 sm:px-24  overflow-x-hidden">
       <div>
         <div className="flex flex-col">
           <h1 className=" font-bold sm:text-5xl text-3xl mb-8">{title}</h1>

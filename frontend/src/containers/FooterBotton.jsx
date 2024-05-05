@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const FooterBotton = () => {
   return (
-    <div className="px-3 pb-28 sm:px-24 flex flex-col gap-4">
+    <div className="px-3 pb-28 sm:px-24 flex flex-col gap-4 overflow-x-hidden">
         <h2 className="text-m22 text-4xl font-semibold">Bea You.</h2>
         <div className="sm:flex gap-6 flex-wrap"> 
             <div className=" font-semibold text-m33">

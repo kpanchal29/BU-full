@@ -5,7 +5,7 @@ import products from "../components/products";
 
 function TopProducts() {
   return (
-    <div className=" bg-magic2 grid grid-cols-1 lg:grid-cols-main2 px-3 py-28 sm:px-24 items-center gap-2 w-screen">
+    <div className=" bg-magic2 grid grid-cols-1 lg:grid-cols-main2 px-3 py-28 sm:px-24 items-center gap-2 overflow-x-hidden">
       <div className="flex flex-wrap flex-col gap-4 col-span-1">
         <h2 className="font-bold text-2xl mb-2">It's a SKIN-VESTMENT</h2>
         <p className="text-gray mb-6 font-normal ">
