@@ -5,7 +5,7 @@ import Header2 from "../containers/Header2";
 import axios from "axios";
 
 const Payment = () => {
-  const { items, cartTotal } = useCart(); // Get items and cartTotal from the useCart hook
+  const { items, cartTotal } = useCart(); 
 
   const paymentHandler = async (event) => {
 

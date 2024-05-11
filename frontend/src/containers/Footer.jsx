@@ -1,9 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Footer = () => {
   const [fData, setFData] = useState({ name: "", email: "" });
   const [error, setError] = useState("");
+
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8081/login", { withCredentials: true })
+  //     .then((res) => {
+  //       setFData((prevState) => ({
+  //         ...prevState,
+  //         email: res.data.email,
+  //       }));
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setError("An error occurred while fetching user email: " + err.message);
+  //     });
+  // }, []);
+  
+  
 
   const handleInputChange = (e) => {
     setFData({ ...fData, [e.target.name]: e.target.value });
@@ -14,12 +31,11 @@ const Footer = () => {
     axios
       .post("http://localhost:8081/newsletter", fData)
       .then((res) => {
-          console.log(res.data);
-
-          setFData({
-            name:"",
-            email:"",
-          })
+        console.log(res.data);
+        setFData({
+          name: "",
+          email: "",
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -62,6 +78,7 @@ const Footer = () => {
                 onChange={handleInputChange}
                 required
                 className="border border-gray-300 rounded p-2 w-full"
+                // readOnly // Make the email field read-only to prevent user modification
               />
             </div>
           </div>

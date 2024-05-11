@@ -1,14 +1,13 @@
+import React, { useState } from "react";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
-import { Link } from "@mui/material";
-import LoginForm from "./loginForm";
+import LoginForm from "../components/loginForm";
 import RegistrationForm from "./registrationForm";
-import HomeMain from "../Pages/HomeMain";
 
 function LoginFormPopup() {
   const [isOpen, setIsOpen] = useState(false);
-  const [showLoginForm, setShowLoginForm] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
   const [showJoinForm, setShowJoinForm] = useState(false);
 
   const openPopup = () => {
@@ -19,13 +18,22 @@ function LoginFormPopup() {
     setIsOpen(false);
   };
 
+  const handleLoginSuccess = (username) => {
+    setIsLoggedIn(true);
+    setUsername(username);
+    closePopup();
+  };
+
+  const handleSignOut = () => {
+    setIsLoggedIn(false);
+    setUsername("");
+  };
+
   const showJoinFormCallback = () => {
-    setShowLoginForm(false);
     setShowJoinForm(true);
   };
 
   const showLoginFormCallback = () => {
-    setShowLoginForm(true);
     setShowJoinForm(false);
   };
 
@@ -47,14 +55,22 @@ function LoginFormPopup() {
             >
               <CloseIcon />
             </span>
-            {showLoginForm && (
-              <LoginForm
-                showJoinFormCallback={showJoinFormCallback}
-                closePopupCallback={closePopup}
-              />
-            )}
-            {showJoinForm && (
-              <RegistrationForm showLoginFormCallback={showLoginFormCallback} />
+            {isLoggedIn ? (
+              <div>
+                <p className="text-black font-semibold text-2xl p-4">Welcome {username}</p>
+                <button
+                  onClick={handleSignOut}
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              showJoinForm ? (
+                <RegistrationForm showLoginFormCallback={showLoginFormCallback} />
+              ) : (
+                <LoginForm onLoginSuccess={handleLoginSuccess} showJoinFormCallback={showJoinFormCallback} />
+              )
             )}
           </div>
         </div>

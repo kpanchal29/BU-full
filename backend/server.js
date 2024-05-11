@@ -2,19 +2,45 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const session = require("express-session");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 const port = 8081;
+app.use(
+  session({
+    secret: "keyboard cat", // Replace with your actual secret key
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "", // Add your MySQL password here
   database: "signup",
+}); 
+
+// Add middleware to check if the user is authenticated
+const authenticateUser = (req, res, next) => {
+  if (req.session && req.session.user) {
+    next(); // User is authenticated, proceed to the next middleware
+  } else {
+    res.status(401).json({ error: "User not authenticated" });
+  }
+};
+
+// Route to fetch user email
+app.get("/login", authenticateUser, (req, res) => {
+  res.status(200).json({ email: req.session.user.email });
 });
+
+
+
+
 
 // connection.connect((err) => {
 //   if (err) {
@@ -58,7 +84,16 @@ app.post("/login", (req, res) => {
         .status(401)
         .send({ success: false, message: "Invalid username or password" });
     } else {
-      res.status(200).send({ success: true, message: "Login successful" });
+      req.session.user = {
+        userName: result[0].userName,
+        email: result[0].email,
+        phone: result[0].phone,
+      };
+      res.status(200).send({
+        success: true,
+        message: "Login successful",
+        username: result[0].userName,
+      });
     }
   });
 });

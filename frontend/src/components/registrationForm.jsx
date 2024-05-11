@@ -19,19 +19,22 @@ function RegistrationForm({ showLoginFormCallback }) {
       .post("http://localhost:8081/signup", formData)
       .then((res) => {
         setRegistrationSuccess(true);
-        console.log(res.data); // Log the response from the server
+        console.log(res.data); 
       })
       .catch((err) => console.log(err));
   };
 
-  // If registration success, trigger the callback to show login form
-  if (registrationSuccess) {
-    showLoginFormCallback();
-  }
-
   // Email validation pattern
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+  if (registrationSuccess) {
+    return (
+      <div className=" text-black text-2xl p-4">
+        <p >Registration Successful! Please proceed to login.</p>
+        <button className=" bg-black text-white rounded-full p-2 mt-5" onClick={showLoginFormCallback}>Login</button>
+      </div>
+    );
+  }
   return (
     <div>
       <h2 className="text-3xl font-bold mb-4 text-black">BECOME A MEMBER</h2>

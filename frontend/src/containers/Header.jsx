@@ -87,7 +87,7 @@ function Header() {
       {/* Render LoginFormPopup component in mobile view */}
       <div className="sm:hidden flex gap-4">
         <LoginFormPopup />
-        <CartDrawer/>
+        <CartDrawer />
       </div>
     </header>
   );
