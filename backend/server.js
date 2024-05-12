@@ -17,6 +17,7 @@ app.use(
   })
 );
 
+
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -24,31 +25,22 @@ const db = mysql.createConnection({
   database: "signup",
 }); 
 
-// Add middleware to check if the user is authenticated
-const authenticateUser = (req, res, next) => {
-  if (req.session && req.session.user) {
-    next(); // User is authenticated, proceed to the next middleware
-  } else {
-    res.status(401).json({ error: "User not authenticated" });
-  }
-};
 
-// Route to fetch user email
-app.get("/login", authenticateUser, (req, res) => {
-  res.status(200).json({ email: req.session.user.email });
+app.get('/', (req, res) => {
+  return res.json("success");
+});
+
+app.get('/signup', (req, res) => {
+  const sql = "SELECT * FROM login";
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json();
+    }
+    return res.json(data);
+  })
 });
 
 
-
-
-
-// connection.connect((err) => {
-//   if (err) {
-//     console.error("Error connecting to MySQL database: " + err.stack);
-//     return;
-//   }
-//   console.log("Connected to MySQL database as id " + connection.threadId);
-// });
 
 // Route for user signup
 app.post("/signup", (req, res) => {
@@ -129,27 +121,7 @@ app.post("/newsletter", (req, res) => {
   });
 });
 
-// app.post("/checkout", (req,res)=> {
-//   const sql = "INSERT INTO checkout (`cName`,`address`,`apartment`,`city`,`state`,`pCode`) VALUES(?,?,?,?,?,?)";
-//   const checkoutFormData = [
-//     req.body.cName,
-//     req.body.address,
-//     req.body.apartment,
-//     req.body.city,
-//     req.body.state,
-//     req.body.pCode,
-
-//   ];
-
-//   db.query(sql, checkoutFormData, (err, data) => {
-//     if (err) {
-//       return res.json({ error: err });
-//     }
-//     return res.json(data);
-//   });
-
-// });
-
+// Route for handling orders
 app.post("/orders", (req, res) => {
   const {
     cName,
@@ -184,16 +156,6 @@ app.post("/orders", (req, res) => {
     }
     return res.json(data);
   });
-
-  //   db.query(sql, values, (err, result) => {
-  //     if (err) {
-  //       console.error("Error inserting data into MySQL table: " + err.stack);
-  //       res.status(500).send("Internal server error");
-  //       return;
-  //     }
-  //     console.log("Data inserted into MySQL table successfully");
-  //     res.status(200).send("Data inserted into MySQL table successfully");
-  //   });
 });
 
 app.listen(8081, () => {
