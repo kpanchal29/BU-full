@@ -15,7 +15,7 @@ const CheckoutForm = () => {
     pCode: "",
   });
 
-  const { isEmpty, items, cartTotal } = useCart();
+  const { isEmpty, items, cartTotal, clear } = useCart();
 
   const handleChange = (e) => {
     setCheckoutFormData({
@@ -41,13 +41,14 @@ const CheckoutForm = () => {
           cartTotal: cartTotal.toFixed(2),
           quantityOfUniqueItems: items.length,
         };
-  
+
         // Send data to the backend
-        const response = await axios.post(
-          "http://localhost:8081/orders",
-          data
-        );
+        const response = await axios.post("http://localhost:8081/orders", data);
         console.log("Response from backend:", response); // Log response from backend
+
+        // Clear the cart after successful submission
+        clear;
+
         // Redirect to payment page after successful submission
         window.location.href = "/payment";
       } catch (error) {
@@ -56,7 +57,6 @@ const CheckoutForm = () => {
       }
     }
   };
-  
 
   return (
     <div>
@@ -67,106 +67,108 @@ const CheckoutForm = () => {
             Shipping Address
           </h2>
           <div className="grid grid-cols-1 gap-y-4">
-            <div>
-              <label
-                htmlFor="cName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Customer Name
-              </label>
-              <input
-                value={checkoutFormData.cName}
-                onChange={handleChange}
-                type="text"
-                id="cName"
-                name="cName"
-                className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="address"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Address
-              </label>
-              <input
-                value={checkoutFormData.address}
-                onChange={handleChange}
-                type="text"
-                id="address"
-                name="address"
-                className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="apartment"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Apartment, suite, etc.
-              </label>
-              <input
-                value={checkoutFormData.apartment}
-                onChange={handleChange}
-                type="text"
-                id="apartment"
-                name="apartment"
-                className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-x-4">
+            <div className="grid grid-cols-1 gap-y-4">
               <div>
                 <label
-                  htmlFor="city"
+                  htmlFor="cName"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  City
+                  Customer Name
                 </label>
                 <input
-                  value={checkoutFormData.city}
+                  value={checkoutFormData.cName}
                   onChange={handleChange}
                   type="text"
-                  id="city"
-                  name="city"
+                  id="cName"
+                  name="cName"
                   className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
               <div>
                 <label
-                  htmlFor="state"
+                  htmlFor="address"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  State / Province
+                  Address
                 </label>
                 <input
-                  value={checkoutFormData.state}
+                  value={checkoutFormData.address}
                   onChange={handleChange}
                   type="text"
-                  id="state"
-                  name="state"
+                  id="address"
+                  name="address"
                   className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
-            </div>
-            <div>
-              <label
-                htmlFor="pCode"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Postal code
-              </label>
-              <input
-                value={checkoutFormData.pCode}
-                onChange={handleChange}
-                type="text"
-                id="pCode"
-                name="pCode"
-                autoComplete="pCode"
-                pattern="[0-9]*"
-                maxLength={6}
-                className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
+              <div>
+                <label
+                  htmlFor="apartment"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Apartment, suite, etc.
+                </label>
+                <input
+                  value={checkoutFormData.apartment}
+                  onChange={handleChange}
+                  type="text"
+                  id="apartment"
+                  name="apartment"
+                  className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-x-4">
+                <div>
+                  <label
+                    htmlFor="city"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    City
+                  </label>
+                  <input
+                    value={checkoutFormData.city}
+                    onChange={handleChange}
+                    type="text"
+                    id="city"
+                    name="city"
+                    className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="state"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    State / Province
+                  </label>
+                  <input
+                    value={checkoutFormData.state}
+                    onChange={handleChange}
+                    type="text"
+                    id="state"
+                    name="state"
+                    className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="pCode"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Postal code
+                </label>
+                <input
+                  value={checkoutFormData.pCode}
+                  onChange={handleChange}
+                  type="text"
+                  id="pCode"
+                  name="pCode"
+                  autoComplete="pCode"
+                  pattern="[0-9]*"
+                  maxLength={6}
+                  className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+              </div>
             </div>
           </div>
           <div className="mt-6">
@@ -182,30 +184,7 @@ const CheckoutForm = () => {
         <div className="p-8 mt-6 md:mt-0 md:ml-6 md:w-1/2 max-w-md">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Cart</h2>
           <div className="overflow-y-auto max-h-96">
-            {isEmpty ? (
-              <p className="text-lg text-gray-800">Cart is empty</p>
-            ) : (
-              items.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between border-b pb-4 mb-4"
-                >
-                  <div className="flex items-center space-x-4">
-                    <img
-                      src={item.imgsrc}
-                      alt={item.title}
-                      className="w-20 h-20 object-cover rounded-md"
-                    />
-                    <div>
-                      <h3 className="text-lg font-semibold">{item.title}</h3>
-                      <p className="text-gray-500 font-bold text-center mt-1">
-                        ₹{item.price}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
+            {/* Display cart items */}
           </div>
           <div className="mt-6">
             <h3 className="text-lg font-bold text-gray-800">Cart Total</h3>
