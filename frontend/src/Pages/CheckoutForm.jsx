@@ -13,6 +13,7 @@ const CheckoutForm = () => {
     city: "",
     state: "",
     pCode: "",
+    email: "", // Add email field to state
   });
 
   const { isEmpty, items, cartTotal, clear } = useCart();
@@ -26,6 +27,12 @@ const CheckoutForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Check if email matches the one stored in local storage
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    if (!userData || userData.email !== checkoutFormData.email) {
+      alert("Email does not match with registered email. Please check or register again.");
+      return;
+    }
     // Check if any field is empty
     if (Object.values(checkoutFormData).some((value) => value === "")) {
       alert("Fill all the data");
@@ -46,8 +53,6 @@ const CheckoutForm = () => {
         const response = await axios.post("http://localhost:8081/orders", data);
         console.log("Response from backend:", response); // Log response from backend
 
-        // Clear the cart after successful submission
-        clear;
 
         // Redirect to payment page after successful submission
         window.location.href = "/payment";
@@ -81,6 +86,23 @@ const CheckoutForm = () => {
                   type="text"
                   id="cName"
                   name="cName"
+                  className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+              </div>
+              {/* Add email input field */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Email
+                </label>
+                <input
+                  value={checkoutFormData.email}
+                  onChange={handleChange}
+                  type="email"
+                  id="email"
+                  name="email"
                   className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>

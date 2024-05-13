@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function LoginForm({ onLoginSuccess, showJoinFormCallback }) {
@@ -6,6 +6,16 @@ function LoginForm({ onLoginSuccess, showJoinFormCallback }) {
     userName: "",
     password: "",
   });
+
+  useEffect(() => {
+    // Check if user data exists in local storage
+    const userDataString = localStorage.getItem("userData");
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      // If user data exists, automatically log in the user
+      onLoginSuccess(userData.userName);
+    }
+  }, []);
 
   const handleLoginFormSubmit = (e) => {
     e.preventDefault();
@@ -15,10 +25,19 @@ function LoginForm({ onLoginSuccess, showJoinFormCallback }) {
         if (res.data.success) {
           alert("Login successful!");
           onLoginSuccess(formData.userName); // Pass username to parent component
+          // Fetch user-specific data from the backend and store it in local storage
+          axios
+            .get(`http://localhost:8081/user-data/${formData.userName}`)
+            .then((response) => {
+              localStorage.setItem("userData", JSON.stringify(response.data));
+            })
+            .catch((error) => {
+              console.error("Error fetching user data:", error);
+            });
         } else {
           alert(res.data.message);
         }
-      })
+      }) 
       .catch((err) => console.log(err));
   };
 
@@ -66,6 +85,7 @@ function LoginForm({ onLoginSuccess, showJoinFormCallback }) {
           Log in
         </button>
       </form>
+
       {/* Not a member? Sign Up button */}
       <p className="mt-4 text-black">
         Not a member?{" "}

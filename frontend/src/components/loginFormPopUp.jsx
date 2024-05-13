@@ -27,12 +27,13 @@ function LoginFormPopup() {
   const handleSignOut = () => {
     setIsLoggedIn(false);
     setUsername("");
+    localStorage.removeItem("userData");
   };
 
   const showJoinFormCallback = () => {
     setShowJoinForm(true);
   };
-
+ 
   const showLoginFormCallback = () => {
     setShowJoinForm(false);
   };

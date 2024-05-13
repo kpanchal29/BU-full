@@ -25,6 +25,20 @@ const db = mysql.createConnection({
   database: "signup",
 }); 
 
+// Route for fetching user data based on username
+app.get("/user-data/:userName", (req, res) => {
+  const { userName } = req.params;
+  const sql = "SELECT * FROM login WHERE userName = ?";
+  db.query(sql, [userName], (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err });
+    }
+    if (data.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.json(data[0]);
+  });
+});
 
 app.get('/', (req, res) => {
   return res.json("success");
@@ -160,13 +174,14 @@ app.post("/orders", (req, res) => {
     city,
     state,
     pCode,
+    email, // Add email field to request body
     items,
     cartTotal,
     quantityOfUniqueItems,
   } = req.body;
 
   // Insert data into the orders table
-  const sql = `INSERT INTO orders (customer_name, address, apartment, city, state, postal_code, item_name, item_price, cart_total, quantity_of_unique_items) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const sql = `INSERT INTO orders (customer_name, address, apartment, city, state, postal_code, email, item_name, item_price, cart_total, quantity_of_unique_items) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   const checkoutFormData = [
     cName,
     address,
@@ -174,6 +189,7 @@ app.post("/orders", (req, res) => {
     city,
     state,
     pCode,
+    email, // Add email to checkout form data
     items.map((item) => item.name).join(", "),
     items.map((item) => item.price).join(", "),
     cartTotal,

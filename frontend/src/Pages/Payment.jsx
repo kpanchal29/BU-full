@@ -1,64 +1,96 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import Header2 from "../containers/Header2";
 import axios from "axios";
 
 const Payment = () => {
-  const { items, cartTotal } = useCart(); 
+  const { items, cartTotal, emptyCart } = useCart();
+  const [prefillData, setPrefillData] = useState({
+    name: "",
+    email: "",
+    contact: "",
+  });
+  
+   useEffect(() => {
+    // Fetch data from local storage and set it in state
+    const userDataString = localStorage.getItem("userData");
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      setPrefillData({
+        name: userData.name || "",
+        email: userData.email || "",
+        contact: userData.phone || "",
+      });
+    }
+  }, []);
 
   const paymentHandler = async (event) => {
-
     const amount = cartTotal * 100;
-    const currency = 'INR';
-    const receiptId = '1234567890';
+    const currency = "INR";
+    const receiptId = "1234567890";
 
-    const response = await fetch('http://localhost:5000/order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    try {
+      // Make API call to create order
+      const orderResponse = await fetch("http://localhost:5000/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount,
+          currency,
+          receipt: receiptId,
+        }),
+      });
+
+      // Parse order response
+      const order = await orderResponse.json();
+      console.log("order", order);
+
+      // Construct payment options
+      const options = {
+        key: "rzp_test_RLYPUkifycvYwu",
         amount,
         currency,
-        receipt: receiptId
-      })
-    })
-
-      const order = await response.json();
-      console.log('order', order);
-
-
-      var option = {
-        key:"rzp_test_RLYPUkifycvYwu",
-        amount,
-        currency,
-        name:"Web Codder",
+        name: prefillData.name,
         description: "Test Transaction",
-        image:"https://i.ibb.co/5Y3m33n/test.png",
-        order_id:order.id,
-        handler: async function(response) {
-          
-          const body = {...response,}
-
-          const validateResponse = await fetch('http://localhost:5000/validate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-
-          })
-
-          const jsonResponse = await validateResponse.json();
-
-          console.log('jsonResponse', jsonResponse);
-          
+        image: "https://i.ibb.co/5Y3m33n/test.png",
+        order_id: order.id,
+        handler: async function (response) {
+          const body = { ...response };
+          // Make API call to validate payment
+          try {
+            const validateResponse = await fetch(
+              "http://localhost:5000/validate",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body),
+              }
+            );
+            const jsonResponse = await validateResponse.json();
+            console.log("jsonResponse", jsonResponse);
+            if (jsonResponse.success) {
+              // Clear the cart after successful payment
+              emptyCart();
+      
+              // Redirect to the success page
+              window.location.href = "http://localhost:5173";
+            } else {
+              // Handle payment failure
+              alert("Payment failed. Please try again.");
+            }
+          } catch (error) {
+            console.error("Error validating payment:", error);
+          }
         },
         prefill: {
-          name: "Web Coder", 
-          email: "webcoder@example.com",
-          contact: "9000000000", 
+          name: prefillData.name,
+          email: prefillData.email,
+          contact: prefillData.contact,
         },
         notes: {
           address: "Razorpay Corporate Office",
@@ -66,22 +98,22 @@ const Payment = () => {
         theme: {
           color: "#3399cc",
         },
-      }
+        callback_url: "http://localhost:5173/",
+        redirect: true,
+      };
 
-      var rzp1 = new Razorpay(option);
-      rzp1.on("payment.failed", function(response) {
-        alert(response.error.code);
-        alert(response.error.description);
-        alert(response.error.source);
-        alert(response.error.step);
-        alert(response.error.reason);
-        alert(response.error.metadata.order_id);
-        alert(response.error.metadata.payment_id);
-      })
+      // Initialize Razorpay instance with options
+      const rzp = new Razorpay(options);
 
-      rzp1.open();
-      event.preventDefault();
-  }
+      // Open Razorpay payment modal
+      rzp.open();
+    } catch (error) {
+      console.error("Error processing payment:", error);
+      alert("Error processing payment. Please try again later.");
+    }
+
+    event.preventDefault();
+  };
 
   return (
     <div>

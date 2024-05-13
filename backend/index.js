@@ -11,6 +11,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Define a global variable to store the items in the cart
+let cartItems = [];
+
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
@@ -40,6 +43,9 @@ app.post("/order", async (req, res) => {
       return res.status(400).json({ error: "Failed to create order" });
     }
 
+    // Store the cart items in the global variable
+    cartItems = req.body.cartItems;
+
     res.json(order);
   } catch (error) {
     console.error("Error creating order:", error);
@@ -61,6 +67,9 @@ app.post("/validate", async (req, res) => {
     if (digest !== razorpay_signature) {
       return res.status(400).json({ error: "Transaction is not legitimate" });
     }
+
+    // Clear the cart after successful payment
+    cartItems = [];
 
     res.json({
       message: "Transaction is legitimate",

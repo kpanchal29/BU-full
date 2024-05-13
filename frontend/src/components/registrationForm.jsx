@@ -5,7 +5,7 @@ function RegistrationForm({ showLoginFormCallback }) {
   const [formData, setFormData] = useState({
     userName: "",
     firstName: "",
-    lastName: "",
+    lastName: "",                                                                                                                                               
     email: "",
     phone: "",
     password: "",
@@ -18,6 +18,8 @@ function RegistrationForm({ showLoginFormCallback }) {
     axios
       .post("http://localhost:8081/signup", formData)
       .then((res) => {
+        // If backend registration is successful, store data in local storage
+        localStorage.setItem("formData", JSON.stringify(formData));
         setRegistrationSuccess(true);
         console.log(res.data); 
       })
@@ -29,9 +31,9 @@ function RegistrationForm({ showLoginFormCallback }) {
 
   if (registrationSuccess) {
     return (
-      <div className=" text-black text-2xl p-4">
-        <p >Registration Successful! Please proceed to login.</p>
-        <button className=" bg-black text-white rounded-full p-2 mt-5" onClick={showLoginFormCallback}>Login</button>
+      <div className="text-black text-2xl p-4">
+        <p>Registration Successful! Please proceed to login.</p>
+        <button className="bg-black text-white rounded-full p-2 mt-5" onClick={showLoginFormCallback}>Login</button>
       </div>
     );
   }
@@ -40,9 +42,7 @@ function RegistrationForm({ showLoginFormCallback }) {
       <h2 className="text-3xl font-bold mb-4 text-black">BECOME A MEMBER</h2>
       <form onSubmit={handleRegistrationFormSubmit}>
         <div className="flex flex-col justify-start items-start">
-          <span className="text-black font-semibold mx-1 text-xl">
-            User Name:
-          </span>
+          <span className="text-black font-semibold mx-1 text-xl">User Name:</span>
           <input
             type="text"
             placeholder="User Name"
@@ -55,9 +55,7 @@ function RegistrationForm({ showLoginFormCallback }) {
           />
         </div>
         <div className="flex flex-col justify-start items-start">
-          <span className="text-black font-semibold mx-1 text-xl">
-            First Name:
-          </span>
+          <span className="text-black font-semibold mx-1 text-xl">First Name:</span>
           <input
             type="text"
             placeholder="First Name"
@@ -70,9 +68,7 @@ function RegistrationForm({ showLoginFormCallback }) {
           />
         </div>
         <div className="flex flex-col justify-start items-start">
-          <span className="text-black font-semibold mx-1 text-xl">
-            Last Name:
-          </span>
+          <span className="text-black font-semibold mx-1 text-xl">Last Name:</span>
           <input
             type="text"
             placeholder="Last Name"
@@ -116,9 +112,7 @@ function RegistrationForm({ showLoginFormCallback }) {
           />
         </div>
         <div className="flex flex-col justify-start items-start">
-          <span className="text-black font-semibold mx-1 text-xl">
-            Password:
-          </span>
+          <span className="text-black font-semibold mx-1 text-xl">Password:</span>
           <input
             type="password"
             placeholder="Password"
@@ -141,9 +135,7 @@ function RegistrationForm({ showLoginFormCallback }) {
       </form>
       <p className="mt-4 text-black">
         Already a member?{" "}
-        <button className="underline" onClick={showLoginFormCallback}>
-          Sign in
-        </button>
+        <button className="underline" onClick={showLoginFormCallback}>Sign in</button>
       </p>
     </div>
   );
