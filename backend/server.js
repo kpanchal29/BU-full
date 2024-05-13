@@ -39,6 +39,36 @@ app.get('/signup', (req, res) => {
     return res.json(data);
   })
 });
+app.get('/newsletter', (req, res) => {
+  const sql = "SELECT * FROM newsletter";
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json();
+    }
+    return res.json(data);
+  })
+});
+
+app.get('/orders', (req, res) => {
+  const sql = "SELECT * FROM orders";
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json();
+    }
+    return res.json(data);
+  })
+});
+app.get('/contactus', (req, res) => {
+  const sql = "SELECT * FROM contactus";
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json();
+    }
+    return res.json(data);
+  })
+});
+
+
 
 
 
